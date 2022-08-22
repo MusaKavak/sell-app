@@ -1,0 +1,136 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.check-body {
+    height: 93vh;
+    width: 95vw;
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 0;
+}
+
+.check-row-1 {
+    width: 60%;
+    height: 100%;
+}
+
+.check-row-2 {
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.barcode-container {
+    display: flex;
+    height: 10%;
+    align-items: center;
+    color: var(--text);
+}
+
+#itemCount,
+#barcode {
+    background-color: var(--background);
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    font-size: 35px;
+    text-align: center;
+    color: var(--text);
+}
+
+#barcode {
+    text-align: left;
+    width: 300px;
+    padding: 0 10px;
+    margin: 0 30px;
+}
+
+#itemCount {
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+}
+
+.counterbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#decreaseItem,
+#increaseItem {
+    color: var(--accent);
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#secondPriceLabel {
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+#secondPriceLabel span {
+    color: var(--text);
+}
+
+#isSecondPrice {
+    display: none;
+}
+
+#checkbox-switch {
+    margin-left: 10px;
+    width: 40px;
+    height: 20px;
+    background-color: transparent;
+    border: 1px solid var(--text);
+    cursor: pointer;
+    border-radius: 20px;
+    position: relative;
+    transition: 1s;
+    display: inline-block;
+}
+
+#checkbox-switch::after {
+    content: '';
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background-color: var(--text);
+    left: 3px;
+    transition: 0.5s;
+
+}
+
+#isSecondPrice:checked~#checkbox-switch::after {
+    left: 21px;
+    background-color: var(--accent);
+}
+
+#isSecondPrice:checked~#checkbox-switch {
+    border-color: var(--accent);
+}
+
+#removeItem {
+    width: 40px;
+}
+
+#removeItem img {
+    width: 25px;
+    cursor: pointer;
+}

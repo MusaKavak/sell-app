@@ -1,0 +1,107 @@
+<div class="check-body">
+    <div class="check-row-1">
+        <div class="barcode-container">
+            <div class="counterbox">
+                <div (click)="setItemAmount(-1)" id="decreaseItem">◄</div>
+                <input type="number" id="itemCount" [(ngModel)]="itemAmount" (click)="setFocus()">
+                <div (click)="setItemAmount(1)" id="increaseItem">►</div>
+            </div>
+            <input type="number" id="barcode" [(ngModel)]="barcode">
+            <label id="secondPriceLabel">
+                <span>İkincil Fiyatlar:</span>
+                <input type="checkbox" id="isSecondPrice" [(ngModel)]="isSecondPrice" (click)="updateValues(50)">
+                <div id="checkbox-switch"></div>
+            </label>
+        </div>
+        <div class="check-table">
+            <table class="table">
+                <tr>
+                    <th id="removeItem" *ngIf="checkItems.length>0"></th>
+                    <th class="productName " *ngIf="checkItems.length>0">Ürün Adı</th>
+                    <th class="amount " *ngIf="checkItems.length>0">Adedi</th>
+                    <th class="price " *ngIf="checkItems.length>0">Fiyat</th>
+                    <th class="buttons" *ngIf="checkItems.length>0"></th>
+                </tr>
+
+                <tr class="checkItem" *ngFor="let item of checkItems">
+                    <td (click)="removeItem(item)" id="removeItem">
+                        <img src="assets/icons/minus.png" alt="Kaldır">
+                    </td>
+                    <td class="productNameAndBarcode" (click)="copyBarcodeToClipboard(item.barcode)">
+                        <span id="product-barcode">{{item.barcode}}</span>
+                        <span id="product-name">{{item.productName}}</span>
+                        <div id="copied" class="copyBubble brd{{item.barcode}} ">Kopyalandı!</div>
+                    </td>
+                    <td class="amount ">{{item.itemCount}}</td>
+                    <td class="price ">{{item.getTotalPrice(isSecondPrice) | currency:' ':"code":"1.2-2"}}</td>
+                    <td (click)="updateValues()">
+                        <div id="plusItemCount" (click)="item.changeItemCount(1,item.itemCount)">▲</div>
+                        <div id="minusItemCount" (click)="item.changeItemCount(-1,item.itemCount)">▼</div>
+                    </td>
+                </tr>
+            </table>
+            <div id="scroll"></div>
+        </div>
+        <div class="check-out">
+            <div id="totalItemCount">Toplam Ürün Sayısı: {{totalItemCount}}</div>
+            <div class="totalPrice">
+                <div>Toplam:</div>
+                <div>{{totalPrice | currency:' ':"code":"1.2-2"}}₺</div>
+            </div>
+            <div class="checkOutOptions">
+                <div class="checkOutOption" id="cancel" (click)="cancel()">
+                    <img src="assets/icons/cancel.png" alt="İptal">
+                    <span>İPTAL</span>
+                </div>
+                <div id="customer-bubble" class="customersBubble" *ngIf="isCustomerMenuOpen">
+                    <div class="customer" *ngFor="let customer of customers" (click)="selectCustomer(customer)">
+                        <img id="customerIcon{{customer.id}}" src="assets/icons/customer.png" alt="Müşteri">
+                        <span id="customerName">{{customer.customerName}}</span>
+                    </div>
+                    <div id="payOnCredit" *ngIf="selectedCustomer!=undefined" (click)="checkOutWithOnCredit()">KAYDET
+                    </div>
+                </div>
+                <div class="checkOutOption" id="onCredit" (click)="onCredit()">
+                    <img src="assets/icons/notebook.png" alt="Veresiye">
+                    <span>VERESİYE</span>
+                </div>
+                <div class="checkOutOption" id="cash" (click)="cash()">
+                    <img src="assets/icons/cash.png" alt="Nakit">
+                    <span>NAKİT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="check-row-2">
+        <div id="productGrid">
+            <div class="gridItem" *ngFor="let gridItem of gridListItems" id="gridItem{{gridItem.barcode}}"
+                (click)="addItemToCheck(gridItem)">
+                <div class="grid-productInfo">
+                    <span id="grid-productPrice" *ngIf="!isSecondPrice">{{gridItem.sellPrice |
+                        currency:' ':"code":"1.1-2"}}
+                    </span>
+                    <span id="grid-productSecondPrice" *ngIf="isSecondPrice">
+                        {{gridItem.secondSellPrice |
+                        currency:' ':"code":"1.1-2"}}</span>
+                    <span id="grid-productAmount">{{gridItem.stockAmount}}</span>
+                </div>
+            </div>
+            <div class="gridItem">
+                <span id="addGridItemButton" (click)="openAndCloseAddGridItemBox()" *ngIf="!isAddGridItemBoxOpen">
+                    <img src="assets/icons/add128.png" alt="Ekle">
+                </span>
+                <div id="addGridItemBox" *ngIf="isAddGridItemBoxOpen">
+                    <div id="selectImageBox">
+                        <img src="assets/icons/selectImage.png" alt="Görsel Seç" id="selectImageBoxImage"
+                            *ngIf="barcodeForAddNewGridItem!=undefined" (click)="selectImageForGridItem()">
+                    </div>
+                    <input placeholder="Ürün Kodu" type="number" id="addGridItemBoxBarcode"
+                        [(ngModel)]="barcodeForAddNewGridItem" (click)="setFocus()">
+                    <button id="addGridItemBoxButton" *ngIf="isImageSelected" (click)="addNewGridItem()">
+                        <img src="assets/icons/add.png" alt="Ekle">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

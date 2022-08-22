@@ -1,0 +1,87 @@
+<div class="products-body">
+    <div class="productTools">
+        <form [formGroup]="addProductForm" class="addAndUpdateProduct">
+            <div id="barcode">
+                <span>Ürün Barkodu</span>
+                <input type="number" value="{{selectedProduct?.barcode}}" formControlName="barcode">
+            </div>
+            <div id="productName">
+                <span>Ürün İsmi</span>
+                <input type="text" value="{{selectedProduct?.productName}}" formControlName="productName">
+            </div>
+            <div id="buyPrice">
+                <span>Alış Fiyatı</span>
+                <input type="number" value="{{selectedProduct?.buyPrice}}" formControlName="buyPrice">
+            </div>
+            <div id="sellPrice">
+                <span>Satış Fiyatı 1</span>
+                <input type="number" value="{{selectedProduct?.sellPrice}}" formControlName="sellPrice">
+            </div>
+            <div id="stockAmount">
+
+                <span>Stok Adedi</span>
+                <input id="stockAmount-input" type="number" value="{{selectedProduct?.stockAmount}}"
+                    formControlName="stockAmount" style="">
+            </div>
+            <div id="buyPrice">
+                <span>Satış Fiyatı 2</span>
+                <input id="secondSellPrice" type="number" value="{{selectedProduct?.secondSellPrice}}"
+                    formControlName="secondSellPrice">
+            </div>
+            <div class="buttons">
+                <button id="addProductButton" [disabled]="!addProductForm.valid" (click)="addProduct()">Ekle</button>
+                <button id="updateProductButton" [disabled]="!addProductForm.valid"
+                    (click)="updateProduct()">Güncelle</button>
+                <button (click)="deleteProduct()" id="deleteProductButton"
+                    [disabled]="!addProductForm.valid">Sil</button>
+            </div>
+        </form>
+        <div class="adjustStockAmount" *ngIf="selectedProduct!=undefined">
+
+            <div class="adjustStockAmount-body">
+                <span id="decreaseNumber" (click)="changeInputValue(-1)">-</span>
+                <input [(ngModel)]="stockAmountInputValue" type="number" id="adjustStockAmountInput">
+                <span id="increaseNumber" (click)="changeInputValue(1)">+</span>
+                <div id="stocks">
+                    <div id="currentStock">{{selectedProduct.stockAmount}}</div>
+                    <img id="arrow" src="assets/icons/arrow-right.png" alt="Sağ ok">
+                    <div id="targetStock">{{selectedProduct.stockAmount! + stockAmountInputValue!}}</div>
+                </div>
+                <button (click)="adjustStock()" [disabled]="selectedProduct==undefined" type="button"
+                    id="adjustStockAmount-button">Stok
+                    Ekle</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="productTable-cover">
+        <div id="searchBox">
+            <input id="searchBox-Input" type="text" [(ngModel)]="searchValue">
+        </div>
+        <table id="productTable" *ngIf="productList!.length > 0">
+            <tr>
+                <th>Ürün Kodu</th>
+                <th>Ürün İsmi</th>
+                <th>Alış Fiyatı</th>
+                <th>Satış Fiyatı</th>
+                <th>Stok Sayısı</th>
+            </tr>
+            <tr *ngFor="let p of productList | productFilter:searchValue" (click)="selectProduct(p)"
+                id="productListItem">
+                <td id="productList-barcode">{{p.barcode}}</td>
+                <td id="productList-name">{{p.productName}}</td>
+                <td id="productList-buyPrice">{{p.buyPrice | currency:' ':"code":"1.1-2"}}</td>
+                <td id="productList-sellPrices">
+                    <span id="sellPrice1">{{p.sellPrice | currency:' ':"code":"1.1-2"}}</span>/
+                    <span id="sellPrice2">{{p.secondSellPrice | currency:' ':"code":"1.1-2"}}</span>
+                </td>
+                <td id="productList-stockAmount">{{p.stockAmount}}
+                    <div id="stockWarning" *ngIf="p.stockAmount! < 3"></div>
+                </td>
+            </tr>
+        </table>
+        <div id="productsNotFound" *ngIf="productList!.length == 0">
+            Ürün Bulunamadı!
+        </div>
+    </div>
+</div>

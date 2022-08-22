@@ -1,0 +1,25 @@
+<div class="app-body">
+    <div id="header">
+        <ul>
+            <div id="activeTab"></div>
+            <li class="route active">
+                <a routerLink="check" (click)="activateLink(0)">Satış</a>
+            </li>
+            <li class="route">
+                <a routerLink="vault" (click)="activateLink(1)">Kasa</a>
+            </li>
+            <li class="route">
+                <a routerLink="products" (click)="activateLink(2)">Ürünler</a>
+            </li>
+            <li class="route">
+                <a routerLink="customers" (click)="activateLink(3)">Müşteriler</a>
+            </li>
+        </ul>
+        <div id="window-tools">
+            <button id="themeSwitch">🌘</button>
+            <div (click)="minimiseWindow() " id="minimise">-</div>
+            <div (click)="exitProgram()" id="close">✖</div>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

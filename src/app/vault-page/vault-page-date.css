@@ -1,0 +1,41 @@
+.select-date {
+    position: absolute;
+    height: 70px;
+    width: 30%;
+    background-color: var(--transparent-text);
+    color: var(--background);
+    bottom: 0;
+    right: 0;
+    text-align: right;
+    padding-right: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow-y: scroll;
+}
+
+.select-date:hover {
+    height: 50%;
+}
+
+#currentDate {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 35px;
+}
+
+#otherDays {
+    font-size: 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    width: 100%;
+    padding: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#otherDays:hover {
+    background-color: var(--background);
+    color: var(--transparent-text);
+}

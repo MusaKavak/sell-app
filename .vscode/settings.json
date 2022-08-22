@@ -1,0 +1,23 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.angular": true,
+        "**/node_modules": true,
+        "**/.browserslistrc": true,
+        "**/.editorconfig": true,
+        "**/.gitignore": true,
+        "**/karma.conf.js": true,
+        "**/package-lock.json": true,
+        "**/README.md": true,
+        "**/app.component.spec.ts": true,
+        "**/test.ts": true,
+        "**/tsconfig.json": true,
+        "**/tsconfig.spec.json": true,
+        "**/tsconfig.app.json": true,
+    }
+}

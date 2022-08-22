@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+.app-body {
+    height: 100%;
+    width: 100%;
+    background-color: var(--background);
+}
+
+#header {
+    height: 7vh;
+    position: relative;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    width: 60%;
+    height: 5vh;
+    display: flex;
+    position: relative;
+    padding: 0 15px;
+}
+
+li {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+    height: 100%;
+    transition: 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+li a {
+    text-decoration: none;
+    color: var(--text);
+    z-index: 15;
+}
+
+#activeTab {
+    width: 180px;
+    height: 100%;
+    transition: 0.5s;
+    background-color: var(--text);
+    border-radius: 20px;
+    position: absolute;
+}
+
+.active a {
+    color: var(--background);
+}
+
+#window-tools {
+    display: flex;
+    width: 40%;
+    position: absolute;
+    justify-content: flex-end;
+    padding: 0 25px;
+    right: 0;
+    align-items: center;
+}
+
+#themeSwitch {
+    z-index: 100;
+    background: transparent;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#minimise {
+    font-size: 50px;
+}
+
+#close {
+    font-size: 25px;
+}
+
+#window-tools div {
+    margin: 0 15px;
+    color: var(--text);
+}
+
+
+#window-tools div:hover {
+    color: red;
+}

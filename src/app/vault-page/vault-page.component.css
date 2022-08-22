@@ -1,0 +1,168 @@
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    height: 30px;
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {}
+
+.vault-body {
+    width: 95vw;
+    height: 93vh;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sales {
+    width: 70%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.vaultItem-menu {
+    width: 100%;
+    height: 20px;
+    overflow: hidden;
+    transition: 0.5s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#menu-date {
+    margin-left: calc(50px + 15%);
+}
+
+#menu-price {
+    position: absolute;
+    right: 0;
+}
+
+.vaultItem {
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    transition: 0.5s;
+    position: relative;
+    margin: 15px 0;
+    border-bottom: 2px solid var(--accent);
+}
+
+.vaultItem:nth-child(2) {
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.vaultItem-header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--accent);
+    position: relative;
+}
+
+#expand {
+    width: 50px;
+    text-align: center;
+}
+
+#expand:hover~#expand-deleteItem {
+    display: block;
+}
+
+#expand-deleteItem:hover {
+    display: block;
+}
+
+#expand-deleteItem {
+    display: none;
+    background-color: var(--error);
+    color: var(--background);
+    opacity: 0.8;
+    padding: 5px 20px;
+    border-radius: 20px;
+    position: absolute;
+    left: 10px;
+    bottom: -15px;
+    cursor: pointer;
+}
+
+#date {
+    margin-left: 15%;
+}
+
+#customerName {
+    margin-left: 30px;
+    color: var(--text);
+}
+
+#totalPrice {
+    position: absolute;
+    right: 0;
+    width: 10%;
+}
+
+.vaultItem:hover {
+    height: 300px;
+}
+
+.vaultItem-products {
+    width: calc(100% - 50px);
+    height: 240px;
+    overflow-y: scroll;
+    margin-left: 50px;
+    padding-bottom: 15px;
+}
+
+#vaultItem-product-listItem {
+    width: 100%;
+    height: 40px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#product-price {
+    width: 10%;
+}
+
+#product-barcode {
+    width: 30%;
+}
+
+#product-name {
+    width: 40%;
+}
+
+#product-amount {
+    width: 20%;
+}
+
+#menu-date,
+#menu-price,
+#expand,
+#date,
+#totalPrice,
+#product-barcode,
+#product-name,
+#product-amount,
+#product-price {
+    color: var(--text);
+}

@@ -1,0 +1,117 @@
+html {
+    --accent: #CC5500;
+    --accent-transparent: #cc5500b3;
+    --secondary-accent: #52796F;
+    --error: #e04343;
+    --cash: #088036;
+    --on-credit: #6027a1;
+    --low-stock: #830e0e;
+}
+
+.light {
+    --background: #cad2c5;
+    --text: #2f3e46;
+    --disabled-border: #c9c9c9;
+    --transparent-text: #354f52b3;
+    --table-hover: #cfcdca;
+}
+
+.dark {
+    --text: #CAD2C5;
+    --background: #2F3E46;
+    --disabled-border: #262929b3;
+    --transparent-text: #e5e4e2b3;
+    --table-hover: #222222;
+}
+
+::selection {
+    color: white;
+    background-color: var(--accent);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    user-select: none;
+    transition: 0.5s;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--background);
+}
+
+#alertify {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 400px;
+    padding: 0 15px 20px 0;
+}
+
+#alert {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 15px 0;
+    margin-left: 0;
+    animation: alert-disappear 5s forwards;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    font-size: 20px;
+    color: white;
+}
+
+#alert-progressBar {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0;
+    right: 0;
+    animation: progressBar 3.5s forwards;
+    background: white;
+}
+
+.success {
+    background-color: rgba(22, 78, 22, 0.7);
+}
+
+.error {
+    background-color: rgba(94, 13, 13, 0.7);
+}
+
+.warning {
+    background-color: rgba(100, 100, 0, 0.7);
+}
+
+@keyframes alert-disappear {
+    0% {
+        margin-left: 0;
+    }
+
+    70% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: 200%;
+        display: none;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}

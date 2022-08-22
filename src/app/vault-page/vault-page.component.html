@@ -1,0 +1,60 @@
+<div class="vault-body">
+    <div class="sales">
+        <div class="vaultItem-menu">
+            <span id="menu-date">Satış Tarihi</span>
+            <span id="menu-price">Satış Toplamı</span>
+        </div>
+        <div class="vaultItem" *ngFor="let vaultEntity of vaultEntityList">
+            <div class="vaultItem-header">
+                <span id="expand">▼</span>
+                <span id="expand-deleteItem" (click)="deleteVaultItem(vaultEntity)">İptal Et</span>
+                <span id="date">{{vaultEntity.date | date:"dd/MM/yyyy     HH:mm:ss"}}</span>
+                <span id="customerName">{{vaultEntity.customer?.customerName}}</span>
+                <span id="totalPrice">{{vaultEntity.totalPrice | currency:' ':"code":"1.2-2"}}₺</span>
+            </div>
+            <div class="vaultItem-products">
+                <div id="vaultItem-product-listItem" *ngFor="let product of vaultEntity.checkList">
+                    <span id="product-barcode">{{product.barcode}}</span>
+                    <span id="product-name">{{product.productName}}</span>
+                    <span id="product-amount">Miktar: {{product.itemCount}}</span>
+                    <span id="product-price">{{product.totalPrice|
+                        currency:' ':"code":"1.2-2"}}₺</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sales-info-cover">
+        <div class="sales-info">
+            <div class="infoBox-money">
+                <div id="totalCash">
+                    {{totalCash | currency:' ':"code":"1.1-2"}}
+                    <img src="assets/icons/cash.png" alt="Nakit">
+                </div>
+                <div id="totalOnCredit">
+                    {{totalOnCredit | currency:' ':"code":"1.1-2"}}
+                    <img src="assets/icons/notebook.png" alt="Veresiye">
+                </div>
+                <div id="divider">+</div>
+                <div id="totalMoney">
+                    {{totalMoney | currency:' ':"code":"1.1-2"}}
+                    <img src="assets/icons/lira.png">
+                </div>
+                <div id="totalBuyPrice">
+                    {{totalBuyMoney | currency:' ':"code":"1.1-2"}}
+                    <img src="assets/icons/wallet-out.png">
+                </div>
+                <div id="divider2">-</div>
+                <div id="profit">
+                    {{profit | currency:' ':"code":"1.1-2"}}
+                    <img src="assets/icons/lira.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="select-date">
+        <div id="currentDate">{{_getLongDate()}}</div>
+        <div id="otherDays" *ngFor="let day of dayList" (click)="getDay(day)">
+            {{_getLongDate(day)}}
+        </div>
+    </div>
+</div>

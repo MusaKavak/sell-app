@@ -51,7 +51,7 @@
             <div class="checkOutOptions">
                 <div class="checkOutOption" id="cancel" (click)="cancel()">
                     <img src="assets/icons/cancel.png" alt="İptal">
-                    <span>İPTAL</span>
+                    <!-- <span>İPTAL</span> -->
                 </div>
                 <div id="customer-bubble" class="customersBubble" *ngIf="isCustomerMenuOpen">
                     <div class="customer" *ngFor="let customer of customers" (click)="selectCustomer(customer)">
@@ -63,11 +63,11 @@
                 </div>
                 <div class="checkOutOption" id="onCredit" (click)="onCredit()">
                     <img src="assets/icons/notebook.png" alt="Veresiye">
-                    <span>VERESİYE</span>
+                    <!-- <span>VERESİYE</span> -->
                 </div>
                 <div class="checkOutOption" id="cash" (click)="cash()">
                     <img src="assets/icons/cash.png" alt="Nakit">
-                    <span>NAKİT</span>
+                    <!-- <span>NAKİT</span> -->
                 </div>
             </div>
         </div>

@@ -111,6 +111,7 @@ export class ProductsPageComponent implements OnInit {
     document.getElementById("searchBox-Input")?.addEventListener('keydown', (key) => {
       if (key.key == 'Enter') {
         document.getElementById('productListItem')?.click()
+        this.searchValue = "";
       }
     })
   }

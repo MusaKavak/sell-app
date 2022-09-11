@@ -9,6 +9,7 @@
     height: 50px;
     width: 50%;
     margin-top: 10px;
+    text-transform: uppercase;
 }
 
 #searchBox input {
@@ -36,7 +37,7 @@
 }
 
 #productTable tr:hover {
-    background-color: var(--table-hover);
+    background-color: var(--accent-transparent);
 }
 
 #productTable tr th {

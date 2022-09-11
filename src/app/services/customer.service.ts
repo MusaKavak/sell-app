@@ -54,12 +54,7 @@ export class CustomerService {
   }
 
   async updateList() {
-    var string = await readTextFile('SellApp\\customers.txt', { dir: BaseDirectory.Document })
-    if (string.length > 0) {
-      this.currentCustomerList = JSON.parse(string)
-    } else {
-      this.updateList()
-    }
+    this.currentCustomerList = [];
   }
 
   async writeCustomersToFile(customers: Array<Customer>) {

@@ -1,4 +1,18 @@
-::-webkit-scrollbar-thumb:hover {}
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    height: 30px;
+    background: var(--accent);
+    border-radius: 10px;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

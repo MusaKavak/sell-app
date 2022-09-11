@@ -32,4 +32,5 @@ export class ProductFilterPipe implements PipeTransform {
 
     return productsForFilter;
   }
+
 }

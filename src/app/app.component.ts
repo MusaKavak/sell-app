@@ -3,12 +3,20 @@ import { app } from '@tauri-apps/api';
 import { appWindow } from '@tauri-apps/api/window';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor() {
+    setTimeout(() => {
+      appWindow.maximize();
+    }, 250);
+  }
+
   title = 'Sell-App';
 
   currentZoom = 100;
@@ -34,4 +42,7 @@ export class AppComponent {
   minimiseWindow() {
     appWindow.minimize();
   }
+
+
 }
+

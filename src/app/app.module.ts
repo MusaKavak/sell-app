@@ -12,6 +12,7 @@ import { VaultPageComponent } from './vault-page/vault-page.component';
 import { ProductFilterPipe } from './products-page/product-filter.pipe';
 import { CustomerPageComponent } from './customer-page/customer-page.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { CustomerService } from './services/customer.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
   ],
   providers: [
     ProductService,
-    AlertifyService
+    AlertifyService,
+    CustomerService
   ],
   bootstrap: [AppComponent]
 })

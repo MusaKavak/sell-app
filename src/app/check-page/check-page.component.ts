@@ -14,7 +14,7 @@ import { ProductService } from '../services/product.service';
   selector: 'app-check-page',
   templateUrl: './check-page.component.html',
   styleUrls: ['./check-page.component.css', './check-page-checkout.css', './check-page-customer.css', './check-page-grid.css'],
-  providers: [ProductService, AlertifyService, CheckOutService]
+  providers: [ProductService, AlertifyService, CheckOutService, CustomerService]
 })
 export class CheckPageComponent implements OnInit {
 
@@ -30,6 +30,7 @@ export class CheckPageComponent implements OnInit {
     this.setListeners()
     this.getCustomers()
     this.setGridItemsList()
+    this.controlLocalStorage()
   }
 
   //Variables
@@ -54,24 +55,47 @@ export class CheckPageComponent implements OnInit {
   gridListItems: Array<Product> = [];
 
   setListeners() {
-    const barcode = document.getElementById("barcode")
+    setTimeout(() => {
 
-    barcode?.addEventListener('keydown', (key) => {
-      if (key.key == 'Enter') {
-        this.productControl()
-      }
-    })
+      const barcode = document.getElementById("barcode")
 
-    document.body.addEventListener('click', () => {
-      setTimeout(() => {
-
-        if (!this.isFocusedInput) {
-          barcode?.focus();
-        } else {
-          this.isFocusedInput = false;
+      barcode?.addEventListener('keydown', (key) => {
+        if (key.key == 'Enter') {
+          this.productControl()
         }
-      }, 250);
-    })
+      })
+
+      document.body.addEventListener('click', () => {
+        setTimeout(() => {
+
+          if (!this.isFocusedInput) {
+            barcode?.focus();
+          } else {
+            this.isFocusedInput = false;
+          }
+        }, 250);
+      })
+    }, 500);
+  }
+
+  controlLocalStorage() {
+    var data = localStorage.getItem("isSecondPrice");
+    if (data == "true") {
+      this.isSecondPrice = true;
+    }
+    if (data == "false") {
+      this.isSecondPrice = false;
+    }
+  }
+
+  saveSecondPriceState() {
+    setTimeout(() => {
+      if (this.isSecondPrice) {
+        localStorage.setItem("isSecondPrice", "true");
+      } else {
+        localStorage.setItem("isSecondPrice", "false");
+      }
+    }, 500);
   }
 
   setFocus() {
@@ -119,6 +143,12 @@ export class CheckPageComponent implements OnInit {
         product.productName,
         product.secondSellPrice
       ))
+      if (this.checkItems.length > 4) {
+        document.querySelector(".check-table")?.scrollTo({
+          top: (this.checkItems.length - 1) * 60,
+          "behavior": "smooth"
+        })
+      }
     }
     this.updateValues();
   }
@@ -148,6 +178,7 @@ export class CheckPageComponent implements OnInit {
   }
 
   updateValues(timeOut: number = 0) {
+    this.saveSecondPriceState();
     setTimeout(() => {
       let price = 0;
       let buyPrice = 0;
@@ -294,5 +325,4 @@ export class CheckPageComponent implements OnInit {
       })
     })
   }
-
 }

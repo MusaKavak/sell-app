@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Sell App",
-    "version": "2.1.0"
+    "version": "3.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -81,8 +81,7 @@
         "resizable": true,
         "title": "Sell App",
         "decorations": false,
-        "width": 800,
-        "height": 600
+        "maximized": true
       }
     ]
   }

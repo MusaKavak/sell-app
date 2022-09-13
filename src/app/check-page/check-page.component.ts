@@ -120,6 +120,7 @@ export class CheckPageComponent implements OnInit {
       }
     })
     this.barcode = undefined;
+    this.barcode = undefined;
   }
 
   addItemToCheck(product: Product) {
@@ -143,12 +144,14 @@ export class CheckPageComponent implements OnInit {
         product.productName,
         product.secondSellPrice
       ))
-      if (this.checkItems.length > 4) {
-        document.querySelector(".check-table")?.scrollTo({
-          top: (this.checkItems.length - 1) * 60,
-          "behavior": "smooth"
-        })
-      }
+      setTimeout(() => {
+        if (this.checkItems.length > 4) {
+          document.querySelector(".check-table")?.scrollTo({
+            top: 1500,
+            "behavior": "smooth"
+          })
+        }
+      }, 250);
     }
     this.updateValues();
   }
@@ -306,7 +309,9 @@ export class CheckPageComponent implements OnInit {
 
   setGridItemsList() {
     this.gridService.getGridItemList().then((items) => {
-      this.gridListItems = [];
+      items = items.sort((a, b) => {
+        return a! - b!;
+      });
       items.forEach(barcode => {
         this.productService.getProductByBarcode(barcode).then((product) => {
           this.gridService.getImageByBarcode(product?.barcode!).then((binary) => {
@@ -319,7 +324,7 @@ export class CheckPageComponent implements OnInit {
 
             setTimeout(() => {
               document.querySelector(`#gridItem${product?.barcode}`)?.setAttribute('style', `background: url("${img}");background-size: cover;background-position: center;`)
-            }, 500);
+            }, 250);
           })
         })
       })

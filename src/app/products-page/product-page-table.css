@@ -46,12 +46,21 @@
     border: none;
 }
 
+#productTable tr td {
+    position: relative;
+}
+
 #productList-barcode,
 #productList-name,
 #productList-buyPrice,
 #productList-stockAmount {
     font-size: 17px;
     color: var(--text);
+}
+
+#productList-barcode,
+#productList-name {
+    cursor: pointer;
 }
 
 #productList-sellPrices {
@@ -81,4 +90,20 @@
     border-radius: 50%;
     position: absolute;
     right: 15px;
+}
+
+#copiedBubble {
+    background-color: var(--accent-transparent);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-left: 10px;
+    display: none;
+    position: absolute;
+    transition: 00.5s;
+    color: var(--background);
+}
+
+#copiedBubble.active {
+    display: inline-block;
 }

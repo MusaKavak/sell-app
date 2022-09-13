@@ -143,4 +143,24 @@ export class ProductsPageComponent implements OnInit {
       this.setSelectedProductNull()
     }
   }
+
+  copyToClipboard(barcode: number, isName: boolean) {
+    var text = ""
+
+    if (isName) {
+      text = this.productList.find(p => p.barcode == barcode)?.productName || "";
+    } else {
+      text = barcode.toString();
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      var selector = isName ? "Name" : "Barcode";
+      const bubble = document.querySelector(`.copiedBubble.${selector}${barcode}`)!;
+      bubble.classList.add('active');
+      setTimeout(() => {
+        bubble.classList.remove('active');
+      }, 2000);
+    })
+
+  }
 }

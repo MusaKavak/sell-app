@@ -6,7 +6,7 @@
                 <input type="number" id="itemCount" [(ngModel)]="itemAmount" (click)="setFocus()">
                 <div (click)="setItemAmount(1)" id="increaseItem">►</div>
             </div>
-            <input type="number" id="barcode" [(ngModel)]="barcode">
+            <input type="number" id="barcode" [(ngModel)]="barcode" (paste)="productControl()">
             <label id="secondPriceLabel">
                 <span>İkincil Fiyatlar:</span>
                 <input type="checkbox" id="isSecondPrice" [(ngModel)]="isSecondPrice" (click)="updateValues(50)">

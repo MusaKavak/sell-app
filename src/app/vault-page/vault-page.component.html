@@ -4,7 +4,8 @@
             <span id="menu-date">Satış Tarihi</span>
             <span id="menu-price">Satış Toplamı</span>
         </div>
-        <div class="vaultItem" *ngFor="let vaultEntity of vaultEntityList">
+        <div *ngFor="let vaultEntity of vaultEntityList; index as i" class="vaultItem index{{i}}"
+            (click)="expandItem(i)">
             <div class="vaultItem-header">
                 <span id="expand">▼</span>
                 <span id="expand-deleteItem" (click)="deleteVaultItem(vaultEntity)">İptal Et</span>
@@ -52,9 +53,9 @@
         </div>
     </div>
     <div class="select-date">
-        <div id="currentDate">{{_getLongDate()}}</div>
+        <div id="currentDate">{{getLongDate()}}</div>
         <div id="otherDays" *ngFor="let day of dayList" (click)="getDay(day)">
-            {{_getLongDate(day)}}
+            {{getLongDate(day)}}
         </div>
     </div>
 </div>

@@ -68,8 +68,12 @@
             </tr>
             <tr *ngFor="let p of productList | productFilter:searchValue" (click)="selectProduct(p)"
                 id="productListItem">
-                <td id="productList-barcode">{{p.barcode}}</td>
-                <td id="productList-name">{{p.productName}}</td>
+                <td id="productList-barcode" (click)="copyToClipboard(p.barcode,false)">{{p.barcode}}
+                    <span id="copiedBubble" class="copiedBubble Barcode{{p.barcode}}">Kopyalandı!</span>
+                </td>
+                <td id="productList-name" (click)="copyToClipboard(p.barcode,true)">{{p.productName}}
+                    <span id="copiedBubble" class="copiedBubble Name{{p.barcode}}">Kopyalandı!</span>
+                </td>
                 <td id="productList-buyPrice">{{p.buyPrice | currency:' ':"code":"1.1-2"}}</td>
                 <td id="productList-sellPrices">
                     <span id="sellPrice1">{{p.sellPrice | currency:' ':"code":"1.1-2"}}</span>/

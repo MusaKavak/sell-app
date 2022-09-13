@@ -65,7 +65,16 @@ export class VaultPageComponent implements OnInit {
     this.getEntities(fileName)
   }
 
-  _getLongDate(fileName: string = this.currentDate) {
+  getLongDate(fileName: string = this.currentDate) {
     return getLongDate(fileName)
+  }
+
+  expandItem(index: number) {
+    const item = document.querySelector(`.index${index}.vaultItem`)!;
+    if (item.classList.contains("active")) {
+      item.classList.remove("active");
+    } else {
+      item.classList.add("active");
+    }
   }
 }

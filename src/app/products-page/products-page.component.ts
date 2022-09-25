@@ -1,32 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LogItem } from '../models/LogItem';
 import { Product } from '../models/product';
 import { AlertifyService } from '../services/alertify.service';
+import { LogService } from '../services/log.service';
 import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
-  styleUrls: ['./product-page-stockInput.css', './products-page.component.css', './product-page-table.css'],
-  providers: [ProductService, AlertifyService]
+  styleUrls: [
+    './product-page-stockInput.css',
+    './products-page.component.css',
+    './product-page-table.css',
+    "./product-page-total.css",
+    "./product-page-log.css"
+  ],
+  providers: [ProductService, AlertifyService, LogService]
 })
 export class ProductsPageComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
     private alertifyService: AlertifyService,
+    private logService: LogService,
     private formBuilder: FormBuilder
-
   ) { }
 
   selectedProduct?: Product;
   productList: Array<Product> = [];
-  searchValue?: string
+  logWindowPageList: Array<Array<LogItem>> = [];
+  searchValue?: string;
 
   stockAmountInputValue?: number = 0;
 
+  totalProductAmount: number = 0;
+  totalBuyPrice: number = 0;
+  totalSellPrice: number = 0;
+  totalSecondSellPrice: number = 0;
+  isLogWindowOpen = false;
+  currentLogPage = 0;
+  isLogListReversed = false
+
+
   ngOnInit(): void {
-    this.setProductList()
+    this.setProductList();
     this.createAddProductForm();
     this.setListeners();
   }
@@ -61,9 +79,25 @@ export class ProductsPageComponent implements OnInit {
   }
 
   setProductList() {
-    this.productService.getProducts().then((list) => {
-      this.productList = list
-    })
+    setTimeout(() => {
+      this.productService.getProducts().then((list) => {
+        this.productList = list;
+        var tpa = 0;
+        var tby = 0;
+        var tsp = 0;
+        var tssp = 0;
+        list.forEach(p => {
+          tpa += p.stockAmount;
+          tby += p.buyPrice * p.stockAmount;
+          tsp += p.sellPrice * p.stockAmount;
+          tssp += p.secondSellPrice * p.stockAmount;
+        });
+        this.totalProductAmount = tpa;
+        this.totalBuyPrice = tby;
+        this.totalSellPrice = tsp;
+        this.totalSecondSellPrice = tssp;
+      })
+    }, 300);
   }
 
   openNewProductDialog() {
@@ -92,6 +126,7 @@ export class ProductsPageComponent implements OnInit {
       var product: Product = Object.assign({}, this.addProductForm.value);
       this.productService.updateProduct(product).then(() => {
         this.setProductList();
+        this.setLazyLoad();
       })
     }
     this.setSelectedProductNull()
@@ -108,21 +143,24 @@ export class ProductsPageComponent implements OnInit {
   }
 
   setListeners() {
-    document.getElementById("searchBox-Input")?.addEventListener('keydown', (key) => {
-      if (key.key == 'Enter') {
-        document.getElementById('productListItem')?.click()
-        this.searchValue = "";
-      }
-    })
+    setTimeout(() => {
+      document.getElementById("searchBox-Input")?.addEventListener('keydown', (key) => {
+        if (key.key == 'Enter') {
+          document.getElementById('productListItem')?.click()
+          this.searchValue = "";
+        }
+      })
+      this.setLazyLoad()
+    }, 350);
   }
 
   adjustStock() {
-
-    this.selectedProduct!.stockAmount! += this.stockAmountInputValue!
-
-    this.productService.updateProduct(this.selectedProduct!)
-    this.stockAmountInputValue = 0;
-    this.setSelectedProductNull()
+    console.log(this.selectedProduct)
+    this.productService.changeStockAmount(this.selectedProduct!.barcode, this.stockAmountInputValue!).then((() => {
+      this.productService.addStockLog(this.selectedProduct!, this.stockAmountInputValue!)
+      this.stockAmountInputValue = 0;
+      this.setSelectedProductNull()
+    }))
   }
 
   setSelectedProductNull() {
@@ -133,6 +171,7 @@ export class ProductsPageComponent implements OnInit {
     this.addProductForm.controls['sellPrice'].setValue(undefined)
     this.addProductForm.controls['secondSellPrice'].setValue(undefined)
     this.addProductForm.controls['stockAmount'].setValue(undefined)
+    this.setLazyLoad()
   }
 
   deleteProduct() {
@@ -141,6 +180,7 @@ export class ProductsPageComponent implements OnInit {
 
       this.productService.deleteProduct(product).then(() => this.setProductList())
       this.setSelectedProductNull()
+      this.setLazyLoad()
     }
   }
 
@@ -163,4 +203,85 @@ export class ProductsPageComponent implements OnInit {
     })
 
   }
+
+  setLazyLoad() {
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.remove("disable")
+        } else {
+          e.target.classList.add("disable")
+        }
+      })
+    }
+    const observer = new IntersectionObserver(callback, {
+      root: document.querySelector(".productTable-cover")
+    })
+
+    const targets = document.querySelectorAll("#productListItem");
+
+    for (let i = 0; i < targets.length; i++) {
+      observer.observe(targets[i])
+    }
+  }
+
+  setLogList() {
+    this.logService.getLogs().then((logs) => {
+      setTimeout(() => {
+        // let reversed = logs
+        // if (!this.isLogListReversed) {
+        //   reversed = logs.reverse()
+        //   this.isLogListReversed = true
+        // }
+        this.setLogPages(logs.reverse())
+      }, 250);
+    })
+  }
+
+  openOrCloseLogWindow() {
+    if (!this.isLogWindowOpen) {
+      this.setLogList()
+    }
+    this.isLogWindowOpen = !this.isLogWindowOpen
+  }
+
+  setLogPages(list: Array<LogItem>) {
+    const logWindowHeight = document.getElementById("logWindow")?.clientHeight
+    if (logWindowHeight != undefined) {
+      this.logWindowPageList = [];
+      const itemPerPage = Math.floor((logWindowHeight - 85) / 70);
+      var lastItemIndex = 0
+      while (lastItemIndex < list.length) {
+        this.logWindowPageList.push(list.slice(lastItemIndex, lastItemIndex + itemPerPage))
+        lastItemIndex += itemPerPage
+      }
+      setTimeout(() => {
+        this.toPage(this.currentLogPage)
+      }, 500);
+    }
+  }
+
+  toPage(pageIndex: number) {
+    const logWindow = document.getElementById("logWindow")
+    const pages = document.querySelectorAll("#transactionPage")
+    const selectors = document.querySelectorAll("#selector")
+    for (let i = 0; i < pages.length; i++) {
+      if (i == pageIndex) {
+        pages[i].classList.remove("disable")
+        selectors[i].classList.add("active")
+      }
+      else {
+        pages[i].classList.add("disable")
+        selectors[i].classList.remove("active")
+      }
+    }
+    logWindow?.scrollTo({
+      left: (pageIndex * logWindow.clientWidth),
+      behavior: 'smooth'
+    })
+    if (selectors[0] != null) {
+      selectors[0].parentElement?.setAttribute("style", `left:${(pageIndex * logWindow!!.clientWidth)}px;`)
+    }
+  }
+
 }

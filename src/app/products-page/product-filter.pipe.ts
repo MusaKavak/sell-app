@@ -22,7 +22,7 @@ export class ProductFilterPipe implements PipeTransform {
         const isContainsInBarcode = product.barcode?.toString().search(searchKey);
 
         if (isContainsInBarcode != -1) {
-          productsForFilter[productsForFilter.length] = product
+          productsForFilter.push(product)
         }
 
       })

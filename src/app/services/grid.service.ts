@@ -18,7 +18,6 @@ export class GridService {
   async getGridItemsFromFile(): Promise<Array<number>> {
     try {
       const string = await readTextFile('SellApp\\gridItems.txt', { dir: BaseDirectory.Document });
-      console.log(string)
       return JSON.parse(string);
 
     } catch (error) {

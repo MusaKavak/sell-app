@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: "products", component: ProductsPageComponent },
   { path: "vault", component: VaultPageComponent },
   { path: "customers", component: CustomerPageComponent }
-
 ];
 
 @NgModule({

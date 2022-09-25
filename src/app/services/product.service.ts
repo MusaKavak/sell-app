@@ -3,6 +3,8 @@ import { Product } from 'src/app/models/product';
 import { readTextFile, createDir, writeTextFile, BaseDirectory } from '@tauri-apps/api/fs';
 import { AlertifyService } from './alertify.service';
 import { GridService } from './grid.service';
+import { LogService } from './log.service';
+import { LogItem } from '../models/LogItem';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,8 @@ import { GridService } from './grid.service';
 export class ProductService {
 
 
-  currentProductList: Array<Product> = [
-
-  ]
+  currentProductList: Array<Product> = [];
+  logService: LogService = new LogService();
   constructor() {
 
   }
@@ -48,6 +49,15 @@ export class ProductService {
       products.push(product);
       await this.writeProductsToFile(products);
       await this.updateList();
+      await this.logService.addNewLog(new LogItem(
+        "Yeni Ürün Eklendi",
+        "newProduct",
+        product,
+        new Date(),
+        undefined,
+        (product.stockAmount * product.buyPrice),
+        product.stockAmount
+      ))
       return true;
     } else {
       return false;
@@ -62,9 +72,17 @@ export class ProductService {
     if (index == -1) {
       new AlertifyService().showAlert('Ürün Bulunamadı', 2)
     } else {
+      const productToLog = products[index]
       products[index] = product;
       await this.writeProductsToFile(products);
       await this.updateList();
+      await this.logService.addNewLog(new LogItem(
+        "Ürün Güncellendi",
+        "updatedProduct",
+        productToLog,
+        new Date(),
+        product
+      ))
     }
   }
 
@@ -130,6 +148,19 @@ export class ProductService {
 
   }
 
+  addStockLog(product: Product, newStockAmount: number) {
+    console.log(product)
+    this.logService.addNewLog(new LogItem(
+      "Stok Eklendi",
+      "addedStock",
+      product,
+      new Date(),
+      undefined,
+      (product.buyPrice * newStockAmount),
+      newStockAmount
+    ))
+  }
+
   async deleteProduct(product: Product) {
     const products = await this.getProducts();
 
@@ -140,6 +171,12 @@ export class ProductService {
 
     await this.writeProductsToFile(newList);
     await this.updateList();
+    await this.logService.addNewLog(new LogItem(
+      "Ürün Silindi",
+      "deletedProduct",
+      product,
+      new Date()
+    ))
   }
 
 }

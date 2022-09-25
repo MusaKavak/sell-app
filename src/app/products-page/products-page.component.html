@@ -88,4 +88,62 @@
             Ürün Bulunamadı!
         </div>
     </div>
+    <div class="totalInformation">
+        <div class="previousStockTransactions" (click)="openOrCloseLogWindow()">
+            <img src="assets/icons/arrow-up.png" alt="Yukarı">
+            <span>Geçmiş İşlemler</span>
+        </div>
+        <div id="totalProductAmount">Toplam Ürün Sayısı <div>{{totalProductAmount}}</div>
+        </div>
+        <div id="totalBuyPrice">Toplam Alış Fiyatı <div>{{totalBuyPrice| currency:' ':"code":"1.1-2"}}₺</div>
+        </div>
+        <div id="totalSellPrice">
+            Toplam Satış Fiyatı
+            <div>
+                <span id="primary">{{ totalSellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                /
+                <span id="secondary">{{totalSecondSellPrice | currency:' ':"code":"1.1-2"}}₺</span>
+            </div>
+        </div>
+    </div>
+    <div id="logWindow" class="logs" *ngIf="isLogWindowOpen">
+        <div id="transactionPage" *ngFor="let logPage of logWindowPageList; index as j" class="transactionPage{{j}}">
+            <div id="transaction" *ngFor="let log of logPage; index as i" class="{{log.boxType}}">
+                <div id="transaction-info">{{log.info}}</div>
+                <div id="transaction-productBarcode">{{log.product.barcode}}</div>
+                <div id="transaction-product">{{log.product.productName}}
+                    <div class="product-infoBox" id="product-infoBox{{i}}">
+                        <div>Ürün İsmi: <span>{{log.product.productName}}</span></div>
+                        <div>Alış Fiyatı: <span>{{log.product.buyPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Satış Fiyatı: <span>{{log.product.sellPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>İ. Satış Fiyatı: <span>{{log.product.secondSellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                        </div>
+                        <div>Stok Adedi: <span>{{log.product.stockAmount}}</span></div>
+                    </div>
+                </div>
+                <div id="transaction-productAfter" *ngIf="log.productAfter != undefined"> <img id="arrow"
+                        src="assets/icons/arrow-right.png" alt="Sağ ok">{{log.productAfter.productName}}
+                    <div class="product-infoBox" id="productAfter-infoBox{{i}}">
+                        <div>Ürün İsmi: <span>{{log.productAfter.productName}}</span></div>
+                        <div>Alış Fiyatı: <span>{{log.productAfter.buyPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Satış Fiyatı: <span>{{log.productAfter.sellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                        </div>
+                        <div>İ. Satış Fiyatı: <span>{{log.productAfter.secondSellPrice|
+                                currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Stok Adedi: <span>{{log.productAfter.stockAmount}}</span></div>
+                    </div>
+                </div>
+                <div id="transaction-buyPrice" *ngIf="log.transactionPrice != undefined">
+                    <span>{{log.stockEntryAmount}}</span>Adet Ürün Eklendi: 
+                    {{log.transactionPrice|
+                    currency:' ':"code":"1.1-2"}}₺
+                </div>
+                <div id="transaction-date">{{log.date | date:"dd/MM/yyyy   HH:mm:ss"}}</div>
+            </div>
+        </div>
+        <div id="pageSelectors">
+            <div id="selector" *ngFor="let logPage of logWindowPageList; index as i" class="" (click)="toPage(i)">
+            </div>
+        </div>
+    </div>
 </div>

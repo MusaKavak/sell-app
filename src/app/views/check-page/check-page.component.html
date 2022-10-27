@@ -1,0 +1,96 @@
+<div class="check-body" (click)="focusToBarcodeInput(barcodeInput)">
+    <div class="check-row-1">
+        <div id="barcode-input-container">
+            <div id="counterbox" class="centered-Flexbox">
+                <div (click)="itemCountInputValue!=1 && itemCountInputValue = itemCountInputValue - 1 ">◄</div>
+                <input id="item-count-input" class="barcode-input-container-input" type="number"
+                    [(ngModel)]="itemCountInputValue" (click)="isFocusedInput = true">
+                <div (click)="itemCountInputValue = itemCountInputValue + 1">►</div>
+            </div>
+            <input #barcodeInput type="number" id="barcode-input" class="barcode-input-container-input"
+                (keydown.enter)="submitBarcodeInput(barcodeInput)">
+            <label>
+                <span>İkincil Fiyatlar:</span>
+                <input [(ngModel)]="useSecondPrice" type="checkbox" id="second-price-checkbox" style="display: none;"
+                    (click)="setUseSecondPriceState()">
+                <div id="checkbox-switch"></div>
+            </label>
+        </div>
+        <div id="check-table">
+            <table>
+                <tr *ngIf="checkoutList.length>0">
+                    <th id="check-table-header-remove"></th>
+                    <th id="check-table-header-product-name">Ürün Adı</th>
+                    <th id="check-table-header-item-count">Adedi</th>
+                    <th id="check-table-header-price">Fiyat</th>
+                    <th id="check-table-header-buttons"></th>
+                </tr>
+                <tr id="check-item" *ngFor="let item of checkoutList">
+                    <td (click)="removeItem(item)" id="check-item-remove">
+                        <img src="assets/icons/minus.png" alt="Kaldır">
+                    </td>
+                    <td id="check-item-product-info-container"
+                        (click)="copyBarcodeToClipboard(item.product.barcode,copyBubble)">
+                        <span id="check-item-barcode">{{item.product.barcode}}</span>
+                        <span id="check-item-product-name">{{item.product.productName}}</span>
+                        <div id="check-item-copy-bubble" #copyBubble>Kopyalandı!</div>
+                    </td>
+                    <td id="check-item-item-count ">{{item.quantity}}</td>
+                    <td id="check-item-price ">{{item.totalPrice | currency:' ':"code":"1.2-2"}}</td>
+                    <td id="check-item-adjust-item-count-buttons-container">
+                        <div (click)="item.changeQuantity(1);setTotalValues()">▲</div>
+                        <div (click)="item.changeQuantity(-1);setTotalValues()">▼</div>
+                    </td>
+                </tr>
+            </table>
+            <div id="scroll-activation-object"></div>
+        </div>
+        <div id="checkout-container">
+            <div id="total-item-count">Toplam Ürün Sayısı: {{totalItemCount}}</div>
+            <div id="total-price">
+                <span>Toplam:</span>
+                <div>{{totalPrice | currency:' ':"code":"1.2-2"}}₺</div>
+            </div>
+            <div id="checkout-options-container">
+                <div id="checkout-cancel" class="checkout-option" (click)="cleanCheckItems()">
+                    <img id="checkout-option-icon" src="assets/icons/cancel.png" alt="İptal" title="İptal">
+                </div>
+                <div id="checkout-onCredit" class="checkout-option">
+                    <img id="checkout-option-icon" src="assets/icons/notebook.png" alt="Veresiye" title="Veresiye">
+                    <div id="customers-container">
+                        <div id="customer" *ngFor="let customer of customers" (click)="selectedCustomer = customer">
+                            <div id="img-background" *ngIf="selectedCustomer?.id == customer.id"></div>
+                            <img src="assets/icons/customer.png" alt="Müşteri">
+                            <span id="customer-name">{{customer.customerName}}</span>
+                        </div>
+                        <div id="save" *ngIf="selectedCustomer!=undefined" (click)="checkOutWithCredit()">
+                            KAYDET
+                        </div>
+                    </div>
+                </div>
+                <div id="checkout-cash" class="checkout-option" (click)="checkOutWithCash()">
+                    <img id="checkout-option-icon" src="assets/icons/cash.png" alt="Nakit" title="Nakit">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="check-row-2">
+        <div id="product-grid">
+            <div id="product-grid-item" *ngFor="let item of gridItems">
+                <img id="grid-product-image" class="barcode{{item.product.barcode}}"
+                    title="{{item.product.productName}}" [src]="item.imgSrc" *ngIf="item.imgSrc != undefined">
+                <div id="grid-product-name" *ngIf="item.imgSrc == undefined">{{item.product.productName}}</div>
+                <div id="item-amount-selectors">
+                    <div id="amount-selector" class="centered-Flexbox" *ngFor="let num of [1,2,3,4,5,6,7,8,9]"
+                        (click)="addItemToCheck(item.product,num)">{{num}}</div>
+                </div>
+                <div id="grid-product-price" *ngIf="!useSecondPrice">{{item.product.sellPrice |
+                    currency:' ':"code":"1.1-2"}}₺
+                </div>
+                <div id="grid-product-price" *ngIf="useSecondPrice">{{item.product.secondSellPrice
+                    |currency:' ':"code":"1.1-2"}}₺
+                </div>
+                <div id="grid-product-stock-amount">{{item.product.stockAmount}}</div>
+            </div>
+        </div>
+    </div>

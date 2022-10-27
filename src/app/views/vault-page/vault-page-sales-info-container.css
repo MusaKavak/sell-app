@@ -1,0 +1,72 @@
+#sales-info-container {
+    width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#sales-info {
+    width: 60%;
+    height: 100%;
+    padding-top: 20px;
+    position: relative;
+    right: 0;
+}
+
+#sales-info div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--text);
+    font-size: 25px;
+}
+
+#total-cash,
+#total-on-credit,
+#total-buy-price,
+#profit {
+    width: 100%;
+    text-align: right;
+}
+
+#total-cash img,
+#total-on-credit img,
+#total-money img,
+#total-buy-price img,
+#profit img {
+    margin-left: 10px;
+    height: 40px;
+}
+
+#total-cash {
+    margin-bottom: 10px;
+}
+
+#total-on-credit {
+    position: absolute;
+}
+
+#divider {
+    width: 100%;
+    margin-top: 35px;
+    display: block;
+    font-size: 25px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    text-align: left;
+    display: block !important;
+}
+
+#total-money {
+    margin: 10px 0;
+    text-align: end;
+    width: 100%;
+}
+
+#total-buy-price {
+    position: absolute;
+
+}

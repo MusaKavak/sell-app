@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CheckPageComponent } from './check-page/check-page.component';
-import { CustomerPageComponent } from './customer-page/customer-page.component';
-import { ProductsPageComponent } from './products-page/products-page.component';
-import { VaultPageComponent } from './vault-page/vault-page.component';
+import { CheckPageComponent } from './views/check-page/check-page.component';
+import { CustomerPageComponent } from './views/customer-page/customer-page.component';
+import { ProductsPageComponent } from './views/products-page/products-page.component';
+import { VaultPageComponent } from './views/vault-page/vault-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'check' },

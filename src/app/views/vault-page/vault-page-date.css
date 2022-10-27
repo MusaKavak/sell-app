@@ -1,0 +1,55 @@
+#date-selection-container {
+    position: absolute;
+    height: 70px;
+    width: 30%;
+    background-color: var(--transparent-text);
+    color: var(--background);
+    bottom: 0;
+    right: 0;
+    padding-right: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow-y: scroll;
+    padding-top: 80px;
+}
+
+#date-selection-container:hover {
+    height: 50%;
+}
+
+#day {
+    font-size: 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    width: 100%;
+    padding: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 60px;
+}
+
+#day:hover {
+    background-color: var(--background);
+    color: var(--transparent-text);
+}
+
+#day.active {
+    height: 70px;
+    font-size: 35px;
+    top: 0;
+    position: absolute;
+    color: var(--background);
+}
+
+#day.active:hover {
+    height: 70px;
+    font-size: 35px;
+    top: 0;
+    position: absolute;
+    background-color: transparent;
+    color: var(--background);
+    cursor: default;
+}

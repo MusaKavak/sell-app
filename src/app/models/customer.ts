@@ -3,7 +3,7 @@ export class Customer {
         public id: number,
         public customerName: string,
         public totalCredit: number,
+        public saleDates: Date[] | null
     ) {
-
     }
 }

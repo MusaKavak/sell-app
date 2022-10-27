@@ -4,27 +4,36 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AlertifyService {
+  private _success = 1;
+  private _error = 2;
+  private _warning = 3;
 
-  constructor() { }
+  success(message: string) {
+    this.showAlert(message, this._success)
+  }
 
-  success = 1;
-  error = 2;
-  warning = 3;
+  error(message: string) {
+    this.showAlert(message, this._error)
+  }
 
-  showAlert(message: string, type: number) {
+  warning(message: string) {
+    this.showAlert(message, this._warning)
+  }
+
+  private showAlert(message: string, type: number) {
     const alertify = document.getElementById('alertify');
     const alert = document.createElement('div')
 
     switch (type) {
-      case this.success: {
+      case this._success: {
         alert.classList.add('success');
         break;
       }
-      case this.error: {
+      case this._error: {
         alert.classList.add('error');
         break
       }
-      case this.warning: {
+      case this._warning: {
         alert.classList.add('warning');
       }
     }

@@ -6,6 +6,6 @@ export class Product {
         public sellPrice: number,
         public secondSellPrice: number,
         public stockAmount: number,
-        public categoryId: number,
+        public addToGrid: boolean
     ) { }
 }

@@ -1,0 +1,22 @@
+<div id="customer-body">
+    <div id="customer-table">
+        <div id="customer-container" *ngFor="let customer of customerList">
+            <div title="Müşteri Sil" id="delete-customer" (click)="deleteCustomer(customer)">✖</div>
+            <div id="customer-name">{{customer.customerName}}</div>
+            <div id="customer-credit">Borç: {{customer.totalCredit | currency:' ':'code':'1.1-2'}}₺</div>
+            <div id="pay">
+                <input [(ngModel)]="payCreditInputs[customer.id]" id="pay-credit-input" type="number" placeholder="0.0"
+                    min="1">
+                <button [disabled]="payCreditInputs[customer.id] == null" id="pay-button"
+                    (click)="pay(customer)">Öde</button>
+            </div>
+        </div>
+        <div id="customer-container">
+            <div id="new-customer-container">
+                <input type="text" [(ngModel)]="newCustomerInput">
+                <div>İsim</div>
+                <button [disabled]="newCustomerInput.length <= 0" (click)="addNewCustomer()">Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>

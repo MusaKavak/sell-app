@@ -1,13 +1,9 @@
-export function getCurrentDate(): Date {
-    return new Date();
-}
-
-export function getVaultFileName(date: Date = getCurrentDate()): string {
+export function getVaultFileName(date: Date): string {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
 
 export function getVaultPathDesign(fileName: string): string {
-    return "SellApp\\Vault\\" + fileName + "\\vault.txt";
+    return "Vault\\" + fileName + "\\vault.txt";
 }
 
 export function getLongDate(filename: string) {

@@ -1,0 +1,101 @@
+#column-2 {
+    width: 70%;
+    height: 80%;
+    overflow-y: scroll;
+    padding-left: 15px;
+    border-bottom: 2px solid var(--accent);
+}
+
+#search-box-container {
+    height: 50px;
+    width: 50%;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+#search-box {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 35px;
+    border-radius: 5px;
+    padding: 0 15px;
+    border-bottom: 2px solid var(--accent);
+    color: var(--text);
+}
+
+#product-table {
+    text-align: left;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#product-table tr {
+    height: 50px;
+    margin-top: 1%;
+}
+
+#product-table tr:hover {
+    background-color: var(--accent-transparent);
+}
+
+#product-table tr th {
+    font-size: 20px;
+    color: var(--text);
+    border: none;
+}
+
+#product-table tr td {
+    position: relative;
+}
+
+#table-item-barcode,
+#table-item-name,
+#table-item-buy-price,
+#table-item-sell-price-1,
+#table-item-stock-amount {
+    font-size: 17px;
+    color: var(--text);
+}
+
+#table-item-barcode {
+    cursor: pointer;
+}
+
+#table-item-sell-price-2 {
+    color: var(--accent);
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+#table-item-stock-amount {
+    position: relative;
+}
+
+#table-item-stock-warning {
+    width: 15px;
+    height: 15px;
+    background-color: var(--low-stock);
+    display: inline-block;
+    border-radius: 50%;
+    position: absolute;
+    right: 15px;
+}
+
+#copy-bubble {
+    background-color: var(--accent-transparent);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-left: 10px;
+    display: none;
+    position: absolute;
+    transition: 00.5s;
+    color: var(--background);
+}
+
+#copy-bubble.active {
+    display: inline-block;
+}

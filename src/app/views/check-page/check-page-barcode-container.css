@@ -1,0 +1,87 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    display: none;
+    margin: 0;
+}
+
+#barcode-input-container {
+    display: flex;
+    height: 10%;
+    align-items: center;
+    color: var(--text);
+}
+
+/* #counterbox centered with Flex */
+
+#counterbox div {
+    color: var(--accent);
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#item-count-input {
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+}
+
+.barcode-input-container-input {
+    background-color: var(--background);
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    font-size: 35px;
+    color: var(--text);
+}
+
+#item-count-input {
+    text-align: center;
+}
+
+#barcode-input {
+    text-align: left;
+    width: 300px;
+    padding: 0 10px;
+    margin: 0 30px;
+}
+
+label span {
+    color: var(--text);
+}
+
+#checkbox-switch {
+    margin-left: 10px;
+    width: 40px;
+    height: 20px;
+    background-color: transparent;
+    border: 1px solid var(--text);
+    cursor: pointer;
+    border-radius: 20px;
+    position: relative;
+    transition: 1s;
+    display: inline-block;
+}
+
+#checkbox-switch::after {
+    content: '';
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background-color: var(--text);
+    left: 3px;
+    transition: 0.5s;
+
+}
+
+#second-price-checkbox:checked~#checkbox-switch {
+    border-color: var(--accent);
+}
+
+#second-price-checkbox:checked~#checkbox-switch::after {
+    left: 21px;
+    background-color: var(--accent);
+}

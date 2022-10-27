@@ -1,0 +1,155 @@
+<div id="products-body">
+    <div id="column-1">
+        <form [formGroup]="productForm!" id="product-form">
+            <!-- <form [formGroup]="productForm!" class="addAndUpdateProduct"> -->
+            <div id="form-barcode" class="full">
+                <span>Ürün Barkodu</span>
+                <input type="number" formControlName="barcode">
+            </div>
+            <div id="form-productName" class="full">
+                <span>Ürün İsmi</span>
+                <input type="text" formControlName="productName">
+            </div>
+            <div id="form-buyPrice" class="half">
+                <span>Alış Fiyatı</span>
+                <input type="number" formControlName="buyPrice">
+            </div>
+            <div id="form-sellPrice" class="half">
+                <span>Satış Fiyatı 1</span>
+                <input type="number" formControlName="sellPrice">
+            </div>
+            <div id="form-stockAmount" class="half">
+                <span>Stok Adedi</span>
+                <input type="number" formControlName="stockAmount" style="">
+            </div>
+            <div id="form-second-sell-price" class="half">
+                <span>Satış Fiyatı 2</span>
+                <input type="number" formControlName="secondSellPrice">
+            </div>
+            <div id="form-add-to-grid">
+                <span>Tabloya Ekle</span>
+                <span style="position: absolute;right:0;">Ürün Görseli</span>
+                <div id="add-to-grid-container">
+                    <label>
+                        <input id="add-to-grid-checkbox" style="display: none;" type="checkbox"
+                            formControlName="addToGrid">
+                        <div id="add-to-grid-checkbox-styled">
+                            <div id="circle"></div>
+                        </div>
+                    </label>
+                    <div id="image-box">
+                        <img src="{{imageSrc}}" (click)="selectImage()">
+                        <div id="image-block" *ngIf="!productForm?.get('addToGrid')?.value">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="buttons">
+                <button id="add-product" [disabled]="!productForm?.valid" (click)="addProduct()">Ekle</button>
+                <button id="update-product" [disabled]="!productForm?.valid" (click)="updateProduct()">Güncelle</button>
+                <button id="delete-product" [disabled]="!productForm?.valid" (click)="deleteProduct()">Sil</button>
+            </div>
+        </form>
+        <div id="adjust-stock-container" *ngIf="selectedProduct!=undefined">
+            <div id="adjust-stock-container-body">
+                <span id="decrease-value"
+                    (click)="adjustStockInputValue != 1 && adjustStockInputValue = adjustStockInputValue - 1">-</span>
+                <input id="adjust-stock-input" [(ngModel)]="adjustStockInputValue" type="number">
+                <span id="increase-value" (click)="adjustStockInputValue = adjustStockInputValue + 1">+</span>
+                <div id="stock-preview">
+                    <div id="current-stock">{{selectedProduct.stockAmount}}</div>
+                    <img id="arrow" src="assets/icons/arrow-right.png" alt="Sağ ok">
+                    <div id="to-stock">{{selectedProduct.stockAmount! + adjustStockInputValue!}}</div>
+                </div>
+                <button id="adjust-stock-button" (click)="adjustStock()" [disabled]="selectedProduct==undefined"
+                    type="button">Stok Ekle
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="column-2">
+        <div id="search-box-container">
+            <input id="search-box" type="text" [(ngModel)]="searchValue"
+                (keydown.enter)="selectFirstListItemAsSelectedProduct()">
+        </div>
+        <table id="product-table" *ngIf="products!.length > 0">
+            <tr>
+                <th>Ürün Kodu</th>
+                <th>Ürün İsmi</th>
+                <th>Alış Fiyatı</th>
+                <th>Satış Fiyatı</th>
+                <th>Stok Sayısı</th>
+            </tr>
+            <tr *ngFor="let p of products | productFilter:searchValue" (click)="selectProduct(p)"
+                id="product-table-item">
+                <td id="table-item-barcode" (click)="copyBarcodeToClipboard(p.barcode,copyBubble)">
+                    {{p.barcode}}
+                    <span #copyBubble id="copy-bubble">Kopyalandı!</span>
+                </td>
+                <td id="table-item-name">{{p.productName}}</td>
+                <td id="table-item-buy-price">{{p.buyPrice | currency:' ':"code":"1.1-2"}}</td>
+                <td id="table-item-sell-price">
+                    <span id="table-item-sell-price-1">{{p.sellPrice | currency:' ':"code":"1.1-2"}}</span>
+                    <span id="table-item-sell-price-2">/ {{p.secondSellPrice | currency:' ':"code":"1.1-2"}}</span>
+                </td>
+                <td id="table-item-stock-amount">{{p.stockAmount}}
+                    <div id="table-item-stock-warning" *ngIf="p.stockAmount! < 3"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="totalInformation">
+        <div class="previousStockTransactions" (click)="openOrCloseLogWindow()">
+            <img src="assets/icons/arrow-up.png" alt="Yukarı">
+            <span>Geçmiş İşlemler</span>
+        </div>
+        <div id="totalProductAmount">Toplam Ürün Sayısı <div>{{totalProductAmount}}</div>
+        </div>
+        <div id="totalBuyPrice">Toplam Alış Fiyatı <div>{{totalBuyPrice| currency:' ':"code":"1.1-2"}}₺</div>
+        </div>
+        <div id="totalSellPrice">
+            Toplam Satış Fiyatı
+            <div>
+                <span id="primary">{{ totalSellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                /
+                <span id="secondary">{{totalSecondSellPrice | currency:' ':"code":"1.1-2"}}₺</span>
+            </div>
+        </div>
+    </div>
+    <div #logWindowElement id="product-log-window" *ngIf="isLogWindowOpen">
+        <div id="logs-container">
+            <div id="log" *ngFor="let log of productLogs; index as i" class="{{log.boxType}}">
+                <div id="log-info">{{log.info}}</div>
+                <div id="log-product-barcode">{{log.product.barcode}}</div>
+                <div id="log-product">{{log.product.productName}}
+                    <div id="product-infobox">
+                        <div>Ürün İsmi: <span>{{log.product.productName}}</span></div>
+                        <div>Alış Fiyatı: <span>{{log.product.buyPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Satış Fiyatı: <span>{{log.product.sellPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>İ. Satış Fiyatı: <span>{{log.product.secondSellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                        </div>
+                        <div>Stok Adedi: <span>{{log.product.stockAmount}}</span></div>
+                    </div>
+                </div>
+                <div id="log-product-after" *ngIf="log.productAfter != undefined"> <img id="arrow"
+                        src="assets/icons/arrow-right.png" alt="Sağ ok">{{log.productAfter.productName}}
+                    <div id="product-infobox">
+                        <div>Ürün İsmi: <span>{{log.productAfter.productName}}</span></div>
+                        <div>Alış Fiyatı: <span>{{log.productAfter.buyPrice| currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Satış Fiyatı: <span>{{log.productAfter.sellPrice| currency:' ':"code":"1.1-2"}}₺</span>
+                        </div>
+                        <div>İ. Satış Fiyatı: <span>{{log.productAfter.secondSellPrice|
+                                currency:' ':"code":"1.1-2"}}₺</span></div>
+                        <div>Stok Adedi: <span>{{log.productAfter.stockAmount}}</span></div>
+                    </div>
+                </div>
+                <div id="log-buy-price" *ngIf="log.transactionPrice != undefined">
+                    <span>{{log.stockEntryAmount}}</span>Adet Ürün Eklendi: 
+                    {{log.transactionPrice|
+                    currency:' ':"code":"1.1-2"}}₺
+                </div>
+                <div id="log-date">{{log.date | date:"HH:mm:ss   dd/MM/yyyy"}}</div>
+            </div>
+        </div>
+    </div>
+</div>

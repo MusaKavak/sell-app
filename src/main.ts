@@ -44,12 +44,6 @@ function changeTheme(theme: string) {
   }
 }
 
-appWindow.setDecorations(false);
-
-appWindow.setSkipTaskbar(false);
-
-appWindow.setFullscreen(false);
-
-appWindow.toggleMaximize()
+appWindow.setFocus()
 
 

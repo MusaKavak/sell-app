@@ -15,10 +15,10 @@ export class CustomerManager {
   async addNewCustomerByName(customerName: string): Promise<number> {
     const customers = await this.getCustomers();
 
-    const currentId = customers[customers.length - 1].id
+    const lastCustomer = customers[customers.length - 1]
     var nextId = 0
-    if (currentId != undefined && currentId != null) {
-      nextId = currentId + 1;
+    if (lastCustomer != undefined && lastCustomer != null) {
+      nextId = lastCustomer.id + 1;
     }
 
     customers.push(new Customer(

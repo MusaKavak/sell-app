@@ -122,14 +122,19 @@ export class ProductsPageComponent implements OnInit {
   selectProduct(product: Product) {
     this.selectedProduct = product;
     this.setImageSrc()
-    for (const prop in product) {
-      this.productForm?.controls[prop].setValue(product[prop as keyof typeof product])
-    }
+    this.productForm?.patchValue({
+      barcode: product.barcode,
+      productName: product.productName,
+      buyPrice: product.buyPrice,
+      sellPrice: product.sellPrice,
+      secondSellPrice: product.secondSellPrice,
+      stockAmount: product.stockAmount,
+      addToGrid: product.addToGrid || false
+    })
   }
 
   submitProductSearchBox() {
     document.getElementById('productListItem')?.click()
-    this.searchValue = "";
   }
 
   adjustStock() {
@@ -138,6 +143,7 @@ export class ProductsPageComponent implements OnInit {
         if (status == StatusCodes.SUCCESS) {
           this.setProducts()
           this.clearSelectedProduct()
+
         }
       })
     }
@@ -149,6 +155,7 @@ export class ProductsPageComponent implements OnInit {
     }
     this.selectedProduct = undefined
     this.imageSrc = this.selectImageSrc
+    this.searchValue = "";
   }
 
   async openOrCloseLogWindow() {

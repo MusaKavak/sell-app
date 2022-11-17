@@ -76,14 +76,10 @@
     </div>
     <div class="check-row-2">
         <div id="product-grid">
-            <div id="product-grid-item" *ngFor="let item of gridItems">
+            <div id="product-grid-item" *ngFor="let item of gridItems" (click)="addItemToCheck(item.product)">
                 <img id="grid-product-image" class="barcode{{item.product.barcode}}"
                     title="{{item.product.productName}}" [src]="item.imgSrc" *ngIf="item.imgSrc != undefined">
                 <div id="grid-product-name" *ngIf="item.imgSrc == undefined">{{item.product.productName}}</div>
-                <div id="item-amount-selectors">
-                    <div id="amount-selector" class="centered-Flexbox" *ngFor="let num of [1,2,3,4,5,6,7,8,9]"
-                        (click)="addItemToCheck(item.product,num)">{{num}}</div>
-                </div>
                 <div id="grid-product-price" *ngIf="!useSecondPrice">{{item.product.sellPrice |
                     currency:' ':"code":"1.1-2"}}₺
                 </div>
@@ -94,3 +90,6 @@
             </div>
         </div>
     </div>
+</div>
+<div id="disabled-page" [hidden]="!disabled">
+</div>

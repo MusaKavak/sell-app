@@ -37,6 +37,7 @@ export class CheckPageComponent implements OnInit {
   totalItemCount = 0;
   selectedCustomer?: Customer;
   isFocusedInput = false;
+  disabled = false
 
   //HTML Elements
   checkTableElement: HTMLElement | null = null
@@ -49,6 +50,7 @@ export class CheckPageComponent implements OnInit {
     this.setLists()
     this.setDomElements()
   }
+
   async setLists() {
     if (this.viewmodel != undefined) {
       this.useSecondPrice = this.viewmodel.getUseSecondPriceState()
@@ -56,15 +58,15 @@ export class CheckPageComponent implements OnInit {
       this.getProducts()
     }
   }
+
   async getProducts() {
-    this.viewmodel!!.getProductList().then(products => {
-      this.products = products
-      this.gridItems = []
-      for (const product of products) {
-        if (product.addToGrid) this.gridItems.push({ product: product, imgSrc: "assets/icons/loading.gif" })
-      }
-      this.setGridImages()
-    })
+    this.products = await this.viewmodel!!.getProductList()
+    this.gridItems = []
+    for (const product of this.products) {
+      if (product.addToGrid) this.gridItems.push({ product: product, imgSrc: "assets/icons/loading.gif" })
+    }
+    this.setGridImages()
+
   }
 
   setDomElements() {
@@ -110,10 +112,7 @@ export class CheckPageComponent implements OnInit {
     }
   }
 
-  addItemToCheck(product: Product, customItemAmount: number | null = null) {
-    if (customItemAmount != null) {
-      this.itemCountInputValue = customItemAmount
-    }
+  addItemToCheck(product: Product) {
     const productIndexInCheckItems = this.checkoutList.findIndex(c => c.product.barcode == product.barcode)
     if (productIndexInCheckItems == -1) {
       this.checkoutList.push(new CheckoutListItem(
@@ -166,8 +165,9 @@ export class CheckPageComponent implements OnInit {
     this.setTotalValues();
   }
 
-  checkOutWithCredit() {
+  async checkOutWithCredit() {
     if (this.checkoutList.length > 0 && this.selectedCustomer != undefined) {
+      this.disabled = true
       this.viewmodel?.checkOutOnCredit(new VaultEntity(
         new Date,
         this.checkoutList,
@@ -176,8 +176,9 @@ export class CheckPageComponent implements OnInit {
         this.useSecondPrice,
         false,
         this.selectedCustomer
-      )).then(() => {
-        this.getProducts()
+      )).then(async () => {
+        await this.getProducts()
+        this.disabled = false
         this.cleanCheckItems()
       })
     }
@@ -185,6 +186,7 @@ export class CheckPageComponent implements OnInit {
 
   checkOutWithCash() {
     if (this.checkoutList.length > 0) {
+      this.disabled = true
       this.viewmodel?.checkOutWithCash(new VaultEntity(
         new Date,
         this.checkoutList,
@@ -192,8 +194,9 @@ export class CheckPageComponent implements OnInit {
         this.totalBuyPrice,
         this.useSecondPrice,
         true
-      )).then(() => {
-        this.getProducts()
+      )).then(async () => {
+        await this.getProducts()
+        this.disabled = false
         this.cleanCheckItems()
       })
     }
@@ -206,6 +209,6 @@ export class CheckPageComponent implements OnInit {
   }
 
   async getProductImage(barcode: number): Promise<string | undefined> {
-    return this.viewmodel?.getProductImageBybarcode(barcode).then()
+    return await this.viewmodel?.getProductImageBybarcode(barcode)
   }
 }

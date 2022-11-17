@@ -14,7 +14,7 @@ export class FileManager {
     static async getListFromDocuments<T>(filePathAndName: string): Promise<Array<T>> {
         const path = "SellApp\\" + filePathAndName
         try {
-            const string = await readTextFile(path, { dir: Dir.App })
+            const string = await readTextFile(path, { dir: Dir.Document })
             return JSON.parse(string)
         } catch (error) {
             console.error(error)
@@ -32,7 +32,7 @@ export class FileManager {
                 path: path,
                 contents: string
             }
-            await writeTextFile(tfOptions, { dir: Dir.App })
+            await writeTextFile(tfOptions, { dir: Dir.Document })
             return true
         } catch (error) {
             console.error(error)
@@ -52,7 +52,7 @@ export class FileManager {
 
     static async readBinaryFromImagesFolderByBarcode(barcode: number): Promise<Uint8Array | undefined> {
         try {
-            return await readBinaryFile(`SellApp\\Images\\${barcode}.png`, { dir: Dir.App })
+            return await readBinaryFile(`SellApp\\Images\\${barcode}.png`, { dir: Dir.Document })
         } catch (error) {
             return undefined
         }
@@ -60,7 +60,7 @@ export class FileManager {
 
     static async writeBinaryToImagesFolderByBarcode(barcode: number, binary: Uint8Array): Promise<StatusCodes> {
         try {
-            await writeBinaryFile(`SellApp\\Images\\${barcode}.png`, binary, { dir: Dir.App })
+            await writeBinaryFile(`SellApp\\Images\\${barcode}.png`, binary, { dir: Dir.Document })
             return StatusCodes.SUCCESS
         } catch (error) {
             const status = await FileManager.tryCreateDirDueToError("SellApp\\Images")
@@ -91,7 +91,7 @@ export class FileManager {
 
     static async createDirInDocuments(pathAndDirName: string) {
         try {
-            await createDir(pathAndDirName, { dir: Dir.App })
+            await createDir(pathAndDirName, { dir: Dir.Document })
         } catch (error) {
             console.error(error)
         }

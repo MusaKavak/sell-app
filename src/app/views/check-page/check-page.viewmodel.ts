@@ -27,8 +27,8 @@ export class CheckPageViewmodel {
     setSecondPricePreferece(newValue: boolean) {
         localStorage.setItem("isSecondPrice", newValue.toString())
     }
-    ///////////////////////////////////////Lists
 
+    ///////////////////////////////////////Lists
     async getCustomerList(): Promise<Customer[]> {
         return await this.customerManager.getCustomers()
     }
@@ -36,6 +36,7 @@ export class CheckPageViewmodel {
         return await this.productManager.getProducts()
     }
     ///////////////////////////////////////Checkout
+
     async checkOutOnCredit(checkoutEntity: VaultEntity) {
         this.customerManager.changeCustomerCredit(checkoutEntity.customer!!, checkoutEntity.totalPrice);
         this.vaultManager.newVaultItem(checkoutEntity)
@@ -45,8 +46,8 @@ export class CheckPageViewmodel {
 
     async checkOutWithCash(checkoutEntity: VaultEntity) {
         this.vaultManager.newVaultItem(checkoutEntity)
-        this.controlStockAmount(checkoutEntity.checkList)
         await this.productManager.changeStockAmountByList(checkoutEntity, -1)
+        this.controlStockAmount(checkoutEntity.checkList)
     }
 
     controlStockAmount(checkoutList: CheckoutListItem[]) {
@@ -57,8 +58,8 @@ export class CheckPageViewmodel {
             }
         }
     }
-
     ///////////////////////////////////////Product Image
+
     async getProductImageBybarcode(barcode: number): Promise<string | undefined> {
         const string = await this.imageManager.getBase64WithBarcode(barcode)
         if (string != undefined) {

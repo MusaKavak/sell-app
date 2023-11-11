@@ -25,6 +25,7 @@ export class ProductsPageComponent implements OnInit {
   searchValue: string = ""
   adjustStockInputValue: number = 0
   productForm?: FormGroup
+  showAllProducts = false
 
   //Lists
   products: Array<Product> = []

@@ -26,6 +26,10 @@
     color: var(--text);
 }
 
+#show-all-container {
+    color: var(--text);
+}
+
 #product-table {
     text-align: left;
     width: 100%;

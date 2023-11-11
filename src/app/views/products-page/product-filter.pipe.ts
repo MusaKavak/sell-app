@@ -6,7 +6,8 @@ import { Product } from 'src/app/models/Product';
 })
 export class ProductFilterPipe implements PipeTransform {
 
-  transform(value: Array<Product>, _searchKey?: string): Array<Product> {
+  transform(value: Array<Product>, _searchKey?: string, showall?: boolean): Array<Product> {
+    if (showall) return value
     var productsForFilter: Array<Product> = []
 
     if (_searchKey != undefined && _searchKey.length > 0) {

@@ -72,6 +72,9 @@
             <input id="search-box" type="text" [(ngModel)]="searchValue"
                 (keydown.enter)="selectFirstListItemAsSelectedProduct()">
         </div>
+        <span id="show-all-container">
+            Hepsini Göster: <input type="checkbox" [(ngModel)]="showAllProducts">
+        </span>
         <table id="product-table" *ngIf="products!.length > 0">
             <tr>
                 <th>Ürün Kodu</th>
@@ -80,7 +83,7 @@
                 <th>Satış Fiyatı</th>
                 <th>Stok Sayısı</th>
             </tr>
-            <tr *ngFor="let p of products | productFilter:searchValue" (click)="selectProduct(p)"
+            <tr *ngFor="let p of products | productFilter:searchValue:showAllProducts" (click)="selectProduct(p)"
                 id="product-table-item">
                 <td id="table-item-barcode" (click)="copyBarcodeToClipboard(p.barcode,copyBubble)">
                     {{p.barcode}}
